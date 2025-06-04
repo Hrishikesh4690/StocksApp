@@ -5,16 +5,16 @@ namespace StocksApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly MyService _myService;
+        private readonly FinnhubServices _finnhubServices;
         
-        public HomeController(MyService myService)
+        public HomeController(FinnhubServices finnhubServices)
         {
-            _myService = myService;
+            _finnhubServices = finnhubServices;
         }
         [Route("/")]
         public async Task<IActionResult> Index()
         {
-            await _myService.method(); // This is not recommended, consider using async/await properly
+            Dictionary<string,object>? responseDictionary = await _finnhubServices.GetStockPriceQuote("MSFT");
             return View();
         }
     }
