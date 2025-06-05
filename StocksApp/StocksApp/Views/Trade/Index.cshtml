@@ -19,6 +19,12 @@
         </div>
     </div>
 
-    <input type="hidden" name="StockSymbol" value="@Model.StockSymbol" />
-    <input type="hidden" id="FinhubToken" value="@ViewBag.FinnhubToken" />
+    <input type="hidden" id="StockSymbol" value="@Model.StockSymbol" />
+    <input type="hidden" id="FinnhubToken" value="@ViewBag.FinnhubToken" />
 </form>
+
+@section scripts { 
+    @* import the finnhubscript.js file to update the price *@
+    <script src="~/scripts/finnhubscript.js"> 
+    </script>
+}
