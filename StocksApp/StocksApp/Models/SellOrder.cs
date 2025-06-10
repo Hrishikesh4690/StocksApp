@@ -5,7 +5,7 @@ namespace StocksApp.Models
     public class SellOrder
     {
         [Key]
-        public Guid? SellOrderId { get; set; }
+        public Guid SellOrderId { get; set; }
 
         [Required(ErrorMessage = "Stock Symbol can't be null or empty")]
         public string StockSymbol { get; set; }
