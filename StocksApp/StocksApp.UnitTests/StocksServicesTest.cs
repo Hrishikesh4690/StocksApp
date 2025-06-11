@@ -91,5 +91,94 @@ namespace StocksApp.UnitTests
             Assert.NotEqual(Guid.Empty, buyOrderResponse.BuyOrderId);
         }
         #endregion
+
+        #region CreateSellOrder Tests
+
+        [Fact]
+        public void CreateSellOrder_Null_BuyOrderRequest_ToBeArgumentNullException()
+        {
+            SellOrderRequest? sellOrderRequest = null;
+
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => _stocksService.CreateSellOrder(sellOrderRequest));
+        }
+
+        [Theory]
+        [InlineData(0)]
+        public void CreateSellOrder_Null_SellOrderQuantity_LessThanMininmum_ToBeArgumentNullException(uint sellOrderQuantity)
+        {
+            SellOrderRequest? sellOrderRequest = new SellOrderRequest { StockName = "Microsoft", StockSymbol = "ABC", DateAndTimeOfOrder = DateTime.Now, Price = 1, Quantity = sellOrderQuantity };
+
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => _stocksService.CreateSellOrder(sellOrderRequest));
+        }
+
+        [Theory]
+        [InlineData(100001)]
+        public void CreateSellOrder_Null_SellOrderQuantity_GreaterThanMaximum_ToBeArgumentNullException(uint sellOrderQuantity)
+        {
+            SellOrderRequest? sellOrderRequest = new SellOrderRequest { StockName = "Microsoft", StockSymbol = "ABC", DateAndTimeOfOrder = DateTime.Now, Price = 1, Quantity = sellOrderQuantity };
+
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => _stocksService.CreateSellOrder(sellOrderRequest));
+        }
+
+        [Theory]
+        [InlineData(0)]
+        public void CreateSellOrder_Null_SellOrderPrice_LessThanMininmum_ToBeArgumentNullException(uint sellOrderPrice)
+        {
+            SellOrderRequest? sellOrderRequest = new SellOrderRequest { StockName = "Microsoft", StockSymbol = "ABC", DateAndTimeOfOrder = DateTime.Now, Price = sellOrderPrice, Quantity = 1 };
+
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => _stocksService.CreateSellOrder(sellOrderRequest));
+        }
+
+        [Theory]
+        [InlineData(10001)]
+        public void CreateSellOrder_Null_SellOrderPrice_GreaterThanMaximum_ToBeArgumentNullException(uint sellOrderPrice)
+        {
+            SellOrderRequest? sellOrderRequest = new SellOrderRequest { StockName = "Microsoft", StockSymbol = "ABC", DateAndTimeOfOrder = DateTime.Now, Price = sellOrderPrice, Quantity = 1 };
+
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => _stocksService.CreateSellOrder(sellOrderRequest));
+        }
+
+        [Fact]
+        public void CreateSellOrder_Null_StockSymbol_ToBeArgumentNullException()
+        {
+            SellOrderRequest? sellOrderRequest = new SellOrderRequest { StockName = "Microsoft", StockSymbol = null, DateAndTimeOfOrder = DateTime.Now, Price = 1, Quantity = 1 };
+
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => _stocksService.CreateSellOrder(sellOrderRequest));
+        }
+
+        [Fact]
+        public void CreateSellOrder_DateOfOrderIsLessThanYear2000_ToBeArgumentNullException()
+        {
+            SellOrderRequest? sellOrderRequest = new SellOrderRequest { StockName = "Microsoft", StockSymbol = "MSFT", DateAndTimeOfOrder = Convert.ToDateTime("1999-12-31"), Price = 1, Quantity = 1 };
+
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => _stocksService.CreateSellOrder(sellOrderRequest));
+        }
+
+        [Fact]
+        public void CreateSellOrder_ValidRequest_ToBeSuccessful()
+        {
+            SellOrderRequest? sellOrderRequest = new SellOrderRequest { StockName = "Microsoft", StockSymbol = "MSFT", DateAndTimeOfOrder = Convert.ToDateTime("2000-12-31"), Price = 1, Quantity = 1 };
+
+            // Act & Assert
+            var sellOrderResponse = _stocksService.CreateSellOrder(sellOrderRequest);
+
+            Assert.NotEqual(Guid.Empty, sellOrderResponse.SellOrderID);
+        }
+        #endregion
+
+        #region GetBuyOrders Tests
+        // Add tests for GetBuyOrders here
+        #endregion
+
+        #region GetSellOrders Tests
+        // Add tests for GetSellOrders here
+        #endregion
     }
 }
