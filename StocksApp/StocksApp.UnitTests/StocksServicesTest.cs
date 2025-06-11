@@ -174,11 +174,102 @@ namespace StocksApp.UnitTests
         #endregion
 
         #region GetBuyOrders Tests
-        // Add tests for GetBuyOrders here
+
+        [Fact]
+        public void GetBuyOrders_EmptyList_ReturnsEmptyList()
+        {
+            // Act
+            var buyOrders = _stocksService.GetBuyOrders();
+            // Assert
+            Assert.Empty(buyOrders);
+        }
+
+        [Fact]
+        public void GetBuyOrders_WithOrders_ReturnsListOfBuyOrders()
+        {
+            // Arrange
+            List<BuyOrderResponse> buyOrdersResponses = new List<BuyOrderResponse>();
+            List<BuyOrderRequest> buyOrdersRequests = new List<BuyOrderRequest>()
+            {
+                new BuyOrderRequest
+                {
+                    StockName = "Microsoft",
+                    StockSymbol = "MSFT",
+                    DateAndTimeOfOrder = DateTime.Now,
+                    Price = 100,
+                    Quantity = 10
+                },
+                new BuyOrderRequest
+                {
+                    StockName = "Applw",
+                    StockSymbol = "APPL",
+                    DateAndTimeOfOrder = DateTime.Now,
+                    Price = 10,
+                    Quantity = 10
+                }
+            };
+            foreach (var buyOrderRequest in buyOrdersRequests)
+            {
+                buyOrdersResponses.Add(_stocksService.CreateBuyOrder(buyOrderRequest));
+            }
+            // Act
+            var buyOrders = _stocksService.GetBuyOrders();
+            // Assert
+            foreach (var buyOrdersResponse in buyOrdersResponses)
+            {
+                Assert.Contains(buyOrdersResponse, buyOrders);
+            }
+
+        }
         #endregion
 
         #region GetSellOrders Tests
-        // Add tests for GetSellOrders here
+
+        [Fact]
+        public void GetSellOrders_EmptyList_ReturnsEmptyList()
+        {
+            // Act
+            var sellOrders = _stocksService.GetSellOrders();
+            // Assert
+            Assert.Empty(sellOrders);
+        }
+
+        [Fact]
+        public void GetSellOrders_WithOrders_ReturnsListOfSellOrders()
+        {
+            // Arrange
+            List<SellOrderResponse> sellOrdersResponses = new List<SellOrderResponse>();
+            List<SellOrderRequest> sellOrdersRequests = new List<SellOrderRequest>()
+            {
+                new SellOrderRequest
+                {
+                    StockName = "Microsoft",
+                    StockSymbol = "MSFT",
+                    DateAndTimeOfOrder = DateTime.Now,
+                    Price = 100,
+                    Quantity = 10
+                },
+                new SellOrderRequest
+                {
+                    StockName = "Applw",
+                    StockSymbol = "APPL",
+                    DateAndTimeOfOrder = DateTime.Now,
+                    Price = 10,
+                    Quantity = 10
+                }
+            };
+            foreach (var sellOrderRequest in sellOrdersRequests)
+            {
+                sellOrdersResponses.Add(_stocksService.CreateSellOrder(sellOrderRequest));
+            }
+            // Act
+            var sellOrders = _stocksService.GetSellOrders();
+            // Assert
+            foreach (var sellOrdersResponse in sellOrdersResponses)
+            {
+                Assert.Contains(sellOrdersResponse, sellOrders);
+            }
+        }
         #endregion
     }
 }

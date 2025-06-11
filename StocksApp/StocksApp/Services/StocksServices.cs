@@ -55,12 +55,16 @@ namespace StocksApp.Services
 
         public List<BuyOrderResponse> GetBuyOrders()
         {
-            throw new NotImplementedException();
+            return _buyOrders.OrderByDescending(o => o.DateAndTimeOfOrder)
+                             .Select(o => o.ToBuyOrderResponse())
+                             .ToList();
         }
 
         public List<SellOrderResponse> GetSellOrders()
         {
-            throw new NotImplementedException();
+            return _sellOrders.OrderByDescending(o => o.DateAndTimeOfOrder)
+                             .Select(o => o.ToSellOrderResponse())
+                             .ToList();
         }
     }
 }
