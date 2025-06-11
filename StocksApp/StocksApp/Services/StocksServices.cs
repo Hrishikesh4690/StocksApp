@@ -9,10 +9,12 @@ namespace StocksApp.Services
     public class StocksServices : IStocksService
     {
         private readonly List<BuyOrder> _buyOrders;
+        private readonly List<SellOrder> _sellOrders;
 
         public StocksServices()
         {
             _buyOrders = new List<BuyOrder>();
+            _sellOrders = new List<SellOrder>();
         }
 
         public BuyOrderResponse CreateBuyOrder(BuyOrderRequest? buyOrderRequest)
@@ -35,7 +37,20 @@ namespace StocksApp.Services
 
         public SellOrderResponse CreateSellOrder(SellOrderRequest? sellOrderRequest)
         {
-            throw new NotImplementedException();
+            if (sellOrderRequest == null)
+            {
+                throw new ArgumentNullException(nameof(sellOrderRequest));
+            }
+
+            ValidationHelper.ModelValidation(sellOrderRequest);
+
+            SellOrder sellOrder = sellOrderRequest.ToSellOrder();
+
+            sellOrder.SellOrderId = Guid.NewGuid();
+
+            _sellOrders.Add(sellOrder);
+
+            return sellOrder.ToSellOrderResponse();
         }
 
         public List<BuyOrderResponse> GetBuyOrders()
